@@ -3,152 +3,576 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dominique Delseny — Projects</title>
-  <meta name="description" content="Portfolio of Dominique Delseny: data engineering, serverless AWS and full-stack projects.">
+  <title>Dominique Delseny — Portfolio</title>
+  <meta name="description" content="Portfolio of Dominique Delseny: Data Engineer / Data Analyst — data pipelines, serverless AWS and full-stack projects.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;0,900;1,400&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f7f7f5;
-      --surface: #ffffff;
-      --text: #1a1a1a;
+      /* Rubik's cube stickers */
+      --red: #e8112d;
+      --blue: #0057d9;
+      --green: #00a651;
+      --yellow: #ffd500;
+      --orange: #ff6a00;
+      --white: #ffffff;
+
+      --bg: #ffffff;
+      --bg-alt: #f3f3f1;
+      --text: #1d1d1f;
       --muted: #5f6368;
-      --border: #e4e4e0;
-      --accent: #0f766e;
-      --accent-soft: #e6f4f2;
-      --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.05);
+      --border: #e2e2de;
+      --ink: #141414;          /* dark bands: masthead, footer */
+      --ink-text: #f5f5f5;
+      --shadow: 0 2px 6px rgba(0,0,0,.06), 0 12px 32px rgba(0,0,0,.08);
     }
     @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0f1113;
-        --surface: #171a1d;
+      :root:not([data-theme="light"]) {
+        --bg: #121315;
+        --bg-alt: #1a1c1f;
         --text: #ececec;
-        --muted: #9aa0a6;
-        --border: #2a2e33;
-        --accent: #2dd4bf;
-        --accent-soft: #12302c;
-        --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+        --muted: #a0a4a9;
+        --border: #2c2f34;
+        --ink: #0a0a0b;
+        --shadow: 0 2px 6px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.35);
       }
     }
+    :root[data-theme="dark"] {
+      --bg: #121315;
+      --bg-alt: #1a1c1f;
+      --text: #ececec;
+      --muted: #a0a4a9;
+      --border: #2c2f34;
+      --ink: #0a0a0b;
+      --shadow: 0 2px 6px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.35);
+    }
+
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (max-width: 860px) { section, header { scroll-margin-top: 56px; } }
     body {
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      font-family: "Source Sans 3", system-ui, -apple-system, sans-serif;
+      font-size: 18px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
-    .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
-    header { padding: 72px 0 40px; }
+    a { color: inherit; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+    section { padding: 112px 0; }
     .eyebrow {
       font-family: "JetBrains Mono", monospace;
-      font-size: 13px; color: var(--accent); letter-spacing: .02em;
+      font-size: 13px; letter-spacing: .12em; text-transform: uppercase;
+      font-weight: 500; margin: 0 0 12px;
     }
-    h1 { font-size: clamp(32px, 5vw, 44px); line-height: 1.15; margin: 8px 0 12px; letter-spacing: -.02em; }
-    .lead { font-size: 18px; color: var(--muted); max-width: 620px; margin: 0; }
-    .links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+    h2 { font-size: clamp(30px, 4.5vw, 44px); line-height: 1.15; margin: 0 0 24px; font-weight: 700; letter-spacing: -.01em; }
+    .center { text-align: center; }
+
     .btn {
       display: inline-flex; align-items: center; gap: 8px;
-      padding: 9px 16px; border-radius: 8px; font-size: 14px; font-weight: 500;
-      text-decoration: none; color: var(--text);
-      border: 1px solid var(--border); background: var(--surface);
-      transition: border-color .15s, transform .15s;
+      padding: 14px 28px; border-radius: 999px;
+      font-weight: 700; font-size: 17px; text-decoration: none;
+      border: 2px solid transparent; cursor: pointer;
+      transition: transform .15s, filter .15s, background .15s;
     }
-    .btn:hover { border-color: var(--accent); transform: translateY(-1px); }
-    .btn svg { width: 16px; height: 16px; fill: currentColor; }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .btn-yellow { background: var(--yellow); color: #111; }
+    .btn-dark { background: var(--ink); color: var(--ink-text); }
+    .btn-outline { border-color: currentColor; background: transparent; }
+    .btn svg { width: 18px; height: 18px; }
 
-    h2 { font-size: 14px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 24px 0 16px; font-weight: 600; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 20px; }
-    .card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
-      padding: 24px; box-shadow: var(--shadow);
-      display: flex; flex-direction: column;
-      transition: border-color .15s, transform .15s;
+    /* ---------- Side menu (always visible, right) ---------- */
+    :root { --nav-w: 230px; }
+    body { padding-right: var(--nav-w); }
+    .sidebar {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 20;
+      width: var(--nav-w);
+      background: var(--ink); color: var(--ink-text);
+      padding: 32px 0 24px;
+      overflow-y: auto;
+      border-left: 1px solid rgba(255,255,255,.08);
     }
-    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .card h3 { margin: 0 0 4px; font-size: 20px; letter-spacing: -.01em; }
-    .domain { font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--accent); word-break: break-all; }
-    .card p { color: var(--muted); font-size: 15px; margin: 14px 0 18px; flex: 1; }
-    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
-    .tag {
-      font-size: 12px; padding: 3px 9px; border-radius: 999px;
-      background: var(--accent-soft); color: var(--accent); font-weight: 500;
+    .sidebar .brand {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0 24px 20px; margin-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      font-weight: 700; font-size: 18px; text-decoration: none; line-height: 1.2;
     }
-    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
-    .actions a { font-size: 14px; font-weight: 600; text-decoration: none; color: var(--accent); }
-    .actions a.secondary { color: var(--muted); font-weight: 500; }
-    .actions a:hover { text-decoration: underline; }
-    footer { padding: 56px 0 40px; color: var(--muted); font-size: 13px; text-align: center; }
+    .sidebar ul { list-style: none; margin: 0; padding: 0; }
+    .sidebar li a {
+      display: block; padding: 11px 24px; text-decoration: none;
+      color: rgba(255,255,255,.7); font-size: 17px;
+      border-left: 4px solid transparent;
+      transition: background .15s, color .15s, border-color .15s;
+    }
+    .sidebar li a:hover { color: #fff; background: rgba(255,255,255,.06); }
+    .sidebar li a.active { color: #fff; border-left-color: var(--c, var(--yellow)); background: rgba(255,255,255,.06); }
+
+    /* narrow screens: the menu becomes a sticky bar of links at the top */
+    @media (max-width: 860px) {
+      body { padding-right: 0; }
+      .sidebar {
+        position: sticky; top: 0; bottom: auto; width: auto;
+        display: flex; align-items: center; padding: 0;
+        border-left: 0; border-bottom: 1px solid rgba(255,255,255,.1);
+        overflow-x: auto; overflow-y: hidden; scrollbar-width: none;
+      }
+      .sidebar::-webkit-scrollbar { display: none; }
+      .sidebar .brand { padding: 0 12px 0 16px; margin: 0; border: 0; }
+      .sidebar .brand .name { display: none; }
+      .sidebar ul { display: flex; }
+      .sidebar li a { padding: 16px 12px; font-size: 15px; white-space: nowrap; border-left: 0; border-bottom: 3px solid transparent; }
+      .sidebar li a.active { border-bottom-color: var(--c, var(--yellow)); background: none; }
+    }
+
+    /* ---------- Mini cube (logo / masthead) ---------- */
+    .cube {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: var(--gap, 6px); padding: var(--gap, 6px);
+      background: #000; border-radius: calc(var(--size, 180px) * .08);
+      width: var(--size, 180px); height: var(--size, 180px);
+      flex: none;
+    }
+    .cube span { border-radius: calc(var(--size, 180px) * .035); transition: background .35s ease; }
+    .cube.small { --size: 26px; --gap: 2px; }
+
+    /* ---------- Masthead ---------- */
+    .masthead {
+      min-height: 100vh; min-height: 100svh;
+      display: flex; align-items: center;
+      background: var(--ink); color: var(--ink-text);
+      padding: 96px 0;
+      position: relative; overflow: hidden;
+    }
+    .masthead .wrap { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 32px; }
+    #heroCube { --size: clamp(150px, 26vw, 220px); --gap: 7px; cursor: pointer; transform: rotate(-6deg); box-shadow: 0 30px 60px rgba(0,0,0,.5); }
+    #heroCube:hover { transform: rotate(-6deg) scale(1.03); }
+    .masthead h1 {
+      font-size: clamp(40px, 8vw, 84px); line-height: 1; margin: 0;
+      font-weight: 900; letter-spacing: -.02em; text-transform: uppercase;
+    }
+    .masthead .role { font-size: clamp(18px, 2.4vw, 24px); font-style: italic; color: rgba(255,255,255,.75); margin: 0; }
+    .masthead .hint { font-family: "JetBrains Mono", monospace; font-size: 12px; color: rgba(255,255,255,.4); margin: -16px 0 0; }
+
+    /* ---------- About ---------- */
+    .about { background: var(--bg); }
+    .about .eyebrow { color: var(--red); }
+    .about p.lead { font-size: clamp(20px, 2.4vw, 24px); color: var(--muted); max-width: 760px; margin: 0 auto 36px; }
+    .about p.lead strong { color: var(--text); }
+
+    /* ---------- Skills (services) ---------- */
+    .skills { background: var(--blue); color: #fff; }
+    .skills .eyebrow { color: var(--yellow); }
+    .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 40px 24px; margin-top: 56px; }
+    .service { text-align: center; }
+    .service .icon {
+      width: 104px; height: 104px; margin: 0 auto 20px; border-radius: 50%;
+      background: #fff; display: grid; place-items: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,.18);
+      transition: transform .2s;
+    }
+    .service:hover .icon { transform: rotate(-8deg) scale(1.06); }
+    .service .icon svg { width: 44px; height: 44px; }
+    .service h3 { margin: 0 0 6px; font-size: 22px; }
+    .service p { margin: 0; color: rgba(255,255,255,.82); font-size: 16px; }
+    .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 64px; }
+    .chip {
+      font-family: "JetBrains Mono", monospace; font-size: 13px;
+      padding: 6px 12px; border-radius: 6px;
+      background: rgba(255,255,255,.12); color: #fff;
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    /* ---------- Callout ---------- */
+    .callout { background: var(--yellow); color: #111; padding: 96px 0; }
+    .callout h2 { margin-bottom: 28px; }
+    .callout h2 em { font-style: normal; background: #111; color: var(--yellow); padding: 0 .25em; }
+
+    /* ---------- Portfolio ---------- */
+    .portfolio { background: var(--bg); }
+    .portfolio .eyebrow { color: var(--green); }
+    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 0; margin-top: 48px; }
+    .tile {
+      position: relative; display: block; aspect-ratio: 4 / 3;
+      text-decoration: none; overflow: hidden;
+      background: var(--c); color: var(--fg, #fff);
+    }
+    /* faint 3x3 sticker grid instead of a photo */
+    .tile::before {
+      content: ""; position: absolute; inset: 0;
+      background:
+        linear-gradient(90deg, transparent calc(33.333% - 3px), rgba(0,0,0,.14) calc(33.333% - 3px) calc(33.333% + 3px), transparent calc(33.333% + 3px) calc(66.666% - 3px), rgba(0,0,0,.14) calc(66.666% - 3px) calc(66.666% + 3px), transparent calc(66.666% + 3px)),
+        linear-gradient(0deg, transparent calc(33.333% - 3px), rgba(0,0,0,.14) calc(33.333% - 3px) calc(33.333% + 3px), transparent calc(33.333% + 3px) calc(66.666% - 3px), rgba(0,0,0,.14) calc(66.666% - 3px) calc(66.666% + 3px), transparent calc(66.666% + 3px));
+      transition: transform .5s ease;
+    }
+    .tile:hover::before { transform: scale(1.08) rotate(2deg); }
+    .tile .num {
+      position: absolute; top: 20px; left: 24px;
+      font-family: "JetBrains Mono", monospace; font-size: 14px; opacity: .8;
+    }
+    .tile .big {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      font-size: clamp(64px, 11vw, 120px); font-weight: 900; letter-spacing: -.04em;
+      opacity: .9; transition: opacity .3s, transform .3s;
+    }
+    .tile .caption {
+      position: absolute; inset: 0; padding: 28px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.55) 60%, rgba(0,0,0,.2));
+      color: #fff; opacity: 0; transition: opacity .3s;
+    }
+    .tile:hover .caption, .tile:focus-visible .caption { opacity: 1; }
+    .tile:hover .big { opacity: 0; transform: scale(.9); }
+    .tile .caption h3 { margin: 0 0 6px; font-size: 28px; line-height: 1.15; }
+    .tile .caption p { margin: 0 0 12px; font-size: 16px; color: rgba(255,255,255,.85); }
+    .tile .caption .meta { font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--yellow); }
+    /* touch devices: always show the caption */
+    @media (hover: none) {
+      .tile .caption { opacity: 1; }
+      .tile .big { opacity: .25; }
+    }
+    .sources { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 28px; margin-top: 28px; font-size: 16px; color: var(--muted); }
+    .sources a { color: var(--muted); }
+    .sources a:hover { color: var(--text); }
+
+    /* ---------- Experience ---------- */
+    .experience { background: var(--bg-alt); }
+    .experience .eyebrow { color: var(--orange); }
+    .timeline { list-style: none; margin: 48px 0 0; padding: 0; display: grid; gap: 16px; }
+    .job {
+      display: grid; grid-template-columns: 12px 1fr; gap: 20px;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 22px 24px; box-shadow: var(--shadow);
+    }
+    .job::before { content: ""; border-radius: 4px; background: var(--c); }
+    .job h3 { margin: 0; font-size: 20px; }
+    .job .org { font-weight: 600; color: var(--muted); }
+    .job .when { font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--muted); margin: 2px 0 8px; }
+    .job p { margin: 0; font-size: 16px; color: var(--muted); }
+    .edu { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; margin-top: 48px; }
+    .edu div { border-top: 4px solid var(--c); padding-top: 14px; }
+    .edu strong { display: block; font-size: 17px; }
+    .edu span { font-size: 15px; color: var(--muted); }
+
+    /* ---------- Contact ---------- */
+    .contact { background: var(--red); color: #fff; }
+    .contact .eyebrow { color: var(--yellow); }
+    .contact p.lead { font-size: 20px; color: rgba(255,255,255,.88); max-width: 640px; margin: 0 auto 48px; }
+    .contact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px; }
+    .contact-card {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      padding: 32px 20px; border-radius: 14px; text-decoration: none;
+      background: #fff; color: #111; box-shadow: 0 10px 30px rgba(0,0,0,.18);
+      transition: transform .15s;
+    }
+    .contact-card:hover { transform: translateY(-4px); }
+    .contact-card .ic { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--c); color: var(--fg, #fff); }
+    .contact-card .ic svg { width: 26px; height: 26px; }
+    .contact-card strong { font-size: 19px; }
+    .contact-card span { font-size: 15px; color: #555; word-break: break-all; text-align: center; }
+    .langs { margin-top: 40px; font-size: 16px; color: rgba(255,255,255,.85); }
+
+    /* ---------- Footer ---------- */
+    footer { background: var(--ink); color: rgba(255,255,255,.6); padding: 56px 0; text-align: center; font-size: 15px; }
+    .social { display: flex; justify-content: center; gap: 14px; margin-bottom: 20px; }
+    .social a {
+      width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center;
+      background: #fff; color: #111; transition: background .15s, color .15s;
+    }
+    .social a:hover { background: var(--yellow); }
+    .social svg { width: 20px; height: 20px; }
+
+    .to-top {
+      position: fixed; right: 16px; bottom: 16px; z-index: 10;
+      width: 48px; height: 48px; border-radius: 10px;
+      background: rgba(20,20,20,.85); color: #fff;
+      display: grid; place-items: center; text-decoration: none;
+      opacity: 0; pointer-events: none; transition: opacity .2s, background .2s;
+    }
+    .to-top.show { opacity: 1; pointer-events: auto; }
+    .to-top:hover { background: var(--blue); }
+    .to-top svg { width: 22px; height: 22px; }
+
+    @media (max-width: 600px) {
+      section { padding: 80px 0; }
+      .job { grid-template-columns: 8px 1fr; gap: 14px; padding: 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before { transition: none !important; }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="eyebrow">// portfolio</div>
+
+  <!-- Side menu -->
+  <nav class="sidebar" id="sidebar" aria-label="Main">
+    <a class="brand" href="#top">
+      <span class="cube small" aria-hidden="true"><span style="background:var(--red)"></span><span style="background:var(--blue)"></span><span style="background:var(--yellow)"></span><span style="background:var(--green)"></span><span style="background:var(--white)"></span><span style="background:var(--orange)"></span><span style="background:var(--yellow)"></span><span style="background:var(--red)"></span><span style="background:var(--blue)"></span></span>
+      <span class="name">Dominique Delseny</span>
+    </a>
+    <ul>
+      <li><a href="#top" style="--c:var(--yellow)">Home</a></li>
+      <li><a href="#about" style="--c:var(--red)">About</a></li>
+      <li><a href="#skills" style="--c:var(--blue)">Skills</a></li>
+      <li><a href="#portfolio" style="--c:var(--green)">Portfolio</a></li>
+      <li><a href="#experience" style="--c:var(--orange)">Experience</a></li>
+      <li><a href="#contact" style="--c:var(--red)">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Masthead -->
+  <header class="masthead" id="top">
+    <div class="wrap">
+      <div class="cube" id="heroCube" role="button" tabindex="0" aria-label="Scramble the cube">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <p class="hint">click to scramble</p>
       <h1>Dominique Delseny</h1>
-      <p class="lead">Data engineering, serverless cloud and full-stack projects — from real-time pipelines to interactive dashboards.</p>
-      <div class="links">
-        <a class="btn" href="https://github.com/domidels" target="_blank" rel="noopener">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
+      <p class="role">Data Engineer · Data Analyst · Full-Stack Developer</p>
+      <a class="btn btn-yellow" href="#about">Find out more</a>
+    </div>
+  </header>
+
+  <!-- About -->
+  <section class="about center" id="about">
+    <div class="wrap">
+      <p class="eyebrow">About</p>
+      <h2>I turn messy data into reliable pipelines<br>and clear, interactive products.</h2>
+      <p class="lead">Data Engineer and Analyst with <strong>5 years of experience</strong> in data pipeline development and <strong>2 years in cloud infrastructure</strong>, built on a previous background in full-stack development. Open to <strong>remote, freelance and flexible hybrid</strong> roles.</p>
+      <a class="btn btn-dark" href="#skills">What I do</a>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section class="skills center" id="skills">
+    <div class="wrap">
+      <p class="eyebrow">Skills</p>
+      <h2>What I offer</h2>
+      <div class="services">
+        <div class="service">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg></div>
+          <h3>Data Pipelines</h3>
+          <p>ETL/ELT with Airflow, Python and SQL — feeding PostgreSQL, Oracle, Solr and S3 with terabytes of data.</p>
+        </div>
+        <div class="service">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H8a6 6 0 1 1 5.66-8H15a4.5 4.5 0 0 1 2.5 8z"/></svg></div>
+          <h3>Cloud &amp; IaC</h3>
+          <p>Serverless AWS (Lambda, S3, API Gateway, EventBridge, CloudFront), Terraform, Docker and CI/CD.</p>
+        </div>
+        <div class="service">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div>
+          <h3>Analytics &amp; ML</h3>
+          <p>Exploratory analysis, dashboards and models with pandas, scikit-learn, Matplotlib, Seaborn and Tableau.</p>
+        </div>
+        <div class="service">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg></div>
+          <h3>Full-Stack &amp; LLMs</h3>
+          <p>React, Node.js and FastAPI apps, Leaflet maps, and LLM-powered research tools.</p>
+        </div>
+      </div>
+      <div class="chips">
+        <span class="chip">Python</span><span class="chip">PostgreSQL</span><span class="chip">AWS</span><span class="chip">ETL/ELT</span><span class="chip">Airflow</span><span class="chip">APIs</span><span class="chip">Linux</span><span class="chip">Bash</span><span class="chip">Terraform</span><span class="chip">Solr</span><span class="chip">Docker</span><span class="chip">Git</span><span class="chip">CI/CD</span><span class="chip">LLMs</span><span class="chip">scikit-learn</span><span class="chip">Matplotlib</span><span class="chip">Seaborn</span><span class="chip">CSS</span><span class="chip">JavaScript</span><span class="chip">Leaflet.js</span><span class="chip">React</span><span class="chip">Node.js</span><span class="chip">Tableau</span><span class="chip">Oracle</span><span class="chip">Snowflake</span><span class="chip">Databricks</span><span class="chip">dbt</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Callout -->
+  <section class="callout center">
+    <div class="wrap">
+      <h2>Looking for a <em>Data Engineer</em> who also ships the front end?</h2>
+      <a class="btn btn-dark" href="#portfolio">See my projects</a>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section class="portfolio center" id="portfolio">
+    <div class="wrap">
+      <p class="eyebrow">Portfolio</p>
+      <h2>Recent projects</h2>
+    </div>
+    <div class="tiles">
+      <a class="tile" style="--c:var(--red)" href="https://stockwatch-au.com/" target="_blank" rel="noopener">
+        <span class="num">01 / stock analytics</span>
+        <span class="big">ASX</span>
+        <span class="caption">
+          <h3>StockWatch AU</h3>
+          <p>ASX analytics dashboard tracking 20 stocks: risk/return scatter, monthly returns heatmap, correlation explorer and PCA clustering. Daily ingestion via yfinance.</p>
+          <span class="meta">Python · Lambda · S3 · CloudFront · Snowflake · React</span>
+        </span>
+      </a>
+      <a class="tile" style="--c:var(--blue)" href="https://waverley-bus.live" target="_blank" rel="noopener">
+        <span class="num">02 / real-time transit</span>
+        <span class="big">BUS</span>
+        <span class="caption">
+          <h3>Waverley Buses Live</h3>
+          <p>Fully serverless real-time bus tracking for Sydney's Eastern Suburbs, ingesting the NSW Transport GTFS-RT feed every few seconds.</p>
+          <span class="meta">Lambda · API Gateway · EventBridge · Terraform · Leaflet</span>
+        </span>
+      </a>
+      <a class="tile" style="--c:var(--green)" href="https://www.plant-med.org/" target="_blank" rel="noopener">
+        <span class="num">03 / LLM research</span>
+        <span class="big">RX</span>
+        <span class="caption">
+          <h3>Plant Therapeutic</h3>
+          <p>AI-powered platform extracting plant–disease evidence from PubMed and generating LLM research summaries ranked by strength of evidence.</p>
+          <span class="meta">FastAPI · Turso · HuggingFace / Llama · Vercel</span>
+        </span>
+      </a>
+      <a class="tile" style="--c:var(--yellow);--fg:#111" href="https://domidels.github.io/wild-life-diversity/" target="_blank" rel="noopener">
+        <span class="num">04 / data platform</span>
+        <span class="big">FIRE</span>
+        <span class="caption">
+          <h3>After the Fire</h3>
+          <p>Wildfires × biodiversity: joining NASA FIRMS satellite fire detections with GBIF observations, published as an interactive dashboard.</p>
+          <span class="meta">Databricks · dbt · NASA FIRMS · GBIF</span>
+        </span>
+      </a>
+    </div>
+    <div class="wrap">
+      <div class="sources">
+        <span>Source code:</span>
+        <a href="https://github.com/domidels/stockwatch-au" target="_blank" rel="noopener">stockwatch-au</a>
+        <a href="https://github.com/domidels/sydney-transports-mvp" target="_blank" rel="noopener">sydney-transports-mvp</a>
+        <a href="https://github.com/domidels/plant-therapeutic-mvp" target="_blank" rel="noopener">plant-therapeutic-mvp</a>
+        <a href="https://github.com/domidels/wild-life-diversity" target="_blank" rel="noopener">wild-life-diversity</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section class="experience" id="experience">
+    <div class="wrap">
+      <div class="center">
+        <p class="eyebrow">Experience</p>
+        <h2>Where I've worked</h2>
+      </div>
+      <ol class="timeline">
+        <li class="job" style="--c:var(--red)">
+          <div>
+            <h3>Data Engineer <span class="org">· SATT AxLR</span></h3>
+            <div class="when">Jan 2024 – Aug 2025 · Montpellier, France</div>
+            <p>Airflow ETL pipelines populating PostgreSQL, Solr and S3 monthly with terabytes of data from APIs, web and SFTP for a collaborative AI tech-transfer project. Terraform automation of 15+ AWS resources across 3 VPCs.</p>
+          </div>
+        </li>
+        <li class="job" style="--c:var(--blue)">
+          <div>
+            <h3>Data Engineer / Data Analyst <span class="org">· CHU de Montpellier</span></h3>
+            <div class="when">Jan 2021 – Dec 2023 · Montpellier, France</div>
+            <p>ETL into Oracle and Postgres to build an OMOP clinical database for the European Health Data &amp; Evidence Network. Deployed OHDSI tools with Docker and automated installs with Ansible.</p>
+          </div>
+        </li>
+        <li class="job" style="--c:var(--green)">
+          <div>
+            <h3>Instructional Developer <span class="org">· UNSW</span></h3>
+            <div class="when">2017 – 2020 · Sydney, Australia</div>
+            <p>Built an online Python course for first-year students, Tableau tutorials for Data Visualisation, and Regression Analysis tutorials for the Master of Data Science.</p>
+          </div>
+        </li>
+        <li class="job" style="--c:var(--orange)">
+          <div>
+            <h3>Web Developer <span class="org">· Freelance</span></h3>
+            <div class="when">2015 – 2017 · Montréal, Canada</div>
+            <p>Set up PHP / MySQL / Apache environments on Linux servers; installed, customised and managed CMS and databases.</p>
+          </div>
+        </li>
+        <li class="job" style="--c:var(--yellow)">
+          <div>
+            <h3>IT Manager <span class="org">· Université de Montréal</span></h3>
+            <div class="when">2010 – 2011 · Montréal, Canada</div>
+            <p>Web modules in PHP, SQL, jQuery and Ajax; Linux tutorials and user support.</p>
+          </div>
+        </li>
+        <li class="job" style="--c:var(--red)">
+          <div>
+            <h3>Junior Consultant <span class="org">· Capgemini</span></h3>
+            <div class="when">2007 – 2009 · Grenoble, France</div>
+            <p>Java modules for EDF, PHP/MySQL site migrations for STMicroelectronics, and a tender website for the International Olympic Committee.</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="edu">
+        <div style="--c:var(--blue)"><strong>Master's, Computer Programming</strong><span>Université Grenoble Alpes · 2004 – 2005</span></div>
+        <div style="--c:var(--green)"><strong>Master, Geophysics &amp; Environmental Engineering</strong><span>Université Grenoble Alpes · 1996 – 1998</span></div>
+        <div style="--c:var(--orange)"><strong>Bachelor's, Music</strong><span>Université du Québec à Montréal · 2011 – 2015</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact center" id="contact">
+    <div class="wrap">
+      <p class="eyebrow">Contact</p>
+      <h2>Let's work together</h2>
+      <p class="lead">Open to remote Data Engineer, Data Analyst or Full-Stack roles — freelance or flexible hybrid. The fastest way to reach me is by email.</p>
+      <div class="contact-cards">
+        <a class="contact-card" href="mailto:domidels@gmail.com">
+          <span class="ic" style="--c:var(--yellow);--fg:#111"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg></span>
+          <strong>Email</strong>
+          <span>domidels@gmail.com</span>
+        </a>
+        <a class="contact-card" href="https://www.linkedin.com/in/dominique-delseny" target="_blank" rel="noopener">
+          <span class="ic" style="--c:var(--blue)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></span>
+          <strong>LinkedIn</strong>
+          <span>in/dominique-delseny</span>
+        </a>
+        <a class="contact-card" href="https://github.com/domidels" target="_blank" rel="noopener">
+          <span class="ic" style="--c:var(--ink)"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></span>
+          <strong>GitHub</strong>
+          <span>github.com/domidels</span>
         </a>
       </div>
-    </header>
+      <p class="langs">French (native) · English (fluent) · Spanish (basic)</p>
+    </div>
+  </section>
 
-    <main>
-      <h2>Projects</h2>
-      <div class="grid">
-
-        <article class="card">
-          <h3>Waverley Buses Live</h3>
-          <span class="domain">waverley-bus.live</span>
-          <p>Real-time bus tracking map for Sydney's Eastern Suburbs. Ingests the NSW Transport GTFS-RT feed every few seconds on a serverless AWS stack and streams positions to a live map.</p>
-          <div class="tags"><span class="tag">AWS</span><span class="tag">Serverless</span><span class="tag">GTFS-RT</span><span class="tag">JavaScript</span></div>
-          <div class="actions">
-            <a href="https://waverley-bus.live" target="_blank" rel="noopener">View live →</a>
-            <a class="secondary" href="https://github.com/domidels/sydney-transports-mvp" target="_blank" rel="noopener">Source</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <h3>StockWatch AU</h3>
-          <span class="domain">stockwatch-au.com</span>
-          <p>End-to-end data pipeline and analytics dashboard for Australian Stock Exchange data: scheduled Lambda ingestion into partitioned Parquet on S3, Infrastructure as Code, and a React frontend.</p>
-          <div class="tags"><span class="tag">AWS Lambda</span><span class="tag">S3 / Parquet</span><span class="tag">IaC</span><span class="tag">React</span></div>
-          <div class="actions">
-            <a href="https://stockwatch-au.com/" target="_blank" rel="noopener">View live →</a>
-            <a class="secondary" href="https://github.com/domidels/stockwatch-au" target="_blank" rel="noopener">Source</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <h3>Plant Therapeutic</h3>
-          <span class="domain">plant-med.org</span>
-          <p>Discover evidence-based, plant-derived therapeutic options for health conditions. Combines PubMed literature search with LLM-generated plain-language summaries, ranked by strength of evidence.</p>
-          <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">LLM</span><span class="tag">PubMed</span></div>
-          <div class="actions">
-            <a href="https://www.plant-med.org/" target="_blank" rel="noopener">View live →</a>
-            <a class="secondary" href="https://github.com/domidels/plant-therapeutic-mvp" target="_blank" rel="noopener">Source</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <h3>After the Fire</h3>
-          <span class="domain">domidels.github.io/wild-life-diversity</span>
-          <p>Wildfires × biodiversity: a Databricks + dbt data platform joining NASA FIRMS satellite fire detections with GBIF biodiversity observations, published as an interactive dashboard.</p>
-          <div class="tags"><span class="tag">Databricks</span><span class="tag">dbt</span><span class="tag">NASA FIRMS</span><span class="tag">GBIF</span></div>
-          <div class="actions">
-            <a href="https://domidels.github.io/wild-life-diversity/" target="_blank" rel="noopener">View live →</a>
-            <a class="secondary" href="https://github.com/domidels/wild-life-diversity" target="_blank" rel="noopener">Source</a>
-          </div>
-        </article>
-
+  <footer>
+    <div class="wrap">
+      <div class="social">
+        <a href="mailto:domidels@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg></a>
+        <a href="https://www.linkedin.com/in/dominique-delseny" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/></svg></a>
+        <a href="https://github.com/domidels" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
       </div>
-    </main>
+      © 2026 Dominique Delseny
+    </div>
+  </footer>
 
-    <footer>© 2026 Dominique Delseny</footer>
-  </div>
+  <a class="to-top" id="toTop" href="#top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
+  </a>
+
+  <script>
+    // Side menu: highlight the section in view
+    const navLinks = [...document.querySelectorAll('#sidebar li a')];
+    const sections = navLinks.map(a => document.querySelector(a.getAttribute('href')));
+    function updateActive() {
+      const y = scrollY + innerHeight * .35;
+      let current = 0;
+      sections.forEach((sec, i) => { if (sec.offsetTop <= y) current = i; });
+      if (innerHeight + scrollY >= document.body.scrollHeight - 2) current = sections.length - 1;
+      navLinks.forEach((a, i) => a.classList.toggle('active', i === current));
+    }
+    addEventListener('scroll', updateActive, { passive: true });
+    updateActive();
+
+    // Hero cube: scramble on click
+    const colors = ['--red', '--blue', '--green', '--yellow', '--orange', '--white'];
+    const stickers = document.querySelectorAll('#heroCube span');
+    function scramble() {
+      stickers.forEach(s => { s.style.background = `var(${colors[Math.floor(Math.random() * colors.length)]})`; });
+    }
+    scramble();
+    const hero = document.getElementById('heroCube');
+    hero.addEventListener('click', scramble);
+    hero.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); scramble(); } });
+
+    // Back-to-top button
+    const toTop = document.getElementById('toTop');
+    addEventListener('scroll', () => toTop.classList.toggle('show', scrollY > innerHeight * .6), { passive: true });
+  </script>
 </body>
 </html>
