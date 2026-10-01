@@ -23,8 +23,12 @@
       --text: #1d1d1f;
       --muted: #5f6368;
       --border: #e2e2de;
-      --ink: #141414;          /* dark bands: masthead, footer */
-      --ink-text: #f5f5f5;
+      --dark: #141414;         /* buttons, icons */
+      --ink: #f1f1ee;          /* frame: masthead, side menu, footer */
+      --ink-text: #1d1d1f;
+      --ink-muted: rgba(0,0,0,.6);
+      --ink-line: rgba(0,0,0,.1);
+      --ink-hover: rgba(0,0,0,.05);
       --shadow: 0 2px 6px rgba(0,0,0,.06), 0 12px 32px rgba(0,0,0,.08);
     }
     @media (prefers-color-scheme: dark) {
@@ -34,7 +38,6 @@
         --text: #ececec;
         --muted: #a0a4a9;
         --border: #2c2f34;
-        --ink: #0a0a0b;
         --shadow: 0 2px 6px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.35);
       }
     }
@@ -44,7 +47,6 @@
       --text: #ececec;
       --muted: #a0a4a9;
       --border: #2c2f34;
-      --ink: #0a0a0b;
       --shadow: 0 2px 6px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.35);
     }
 
@@ -80,7 +82,7 @@
     }
     .btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
     .btn-yellow { background: var(--yellow); color: #111; }
-    .btn-dark { background: var(--ink); color: var(--ink-text); }
+    .btn-dark { background: var(--dark); color: #fff; }
     .btn-outline { border-color: currentColor; background: transparent; }
     .btn svg { width: 18px; height: 18px; }
 
@@ -93,23 +95,23 @@
       background: var(--ink); color: var(--ink-text);
       padding: 32px 0 24px;
       overflow-y: auto;
-      border-left: 1px solid rgba(255,255,255,.08);
+      border-left: 1px solid var(--ink-line);
     }
     .sidebar .brand {
       display: flex; align-items: center; gap: 10px;
       padding: 0 24px 20px; margin-bottom: 8px;
-      border-bottom: 1px solid rgba(255,255,255,.1);
+      border-bottom: 1px solid var(--ink-line);
       font-weight: 700; font-size: 18px; text-decoration: none; line-height: 1.2;
     }
     .sidebar ul { list-style: none; margin: 0; padding: 0; }
     .sidebar li a {
       display: block; padding: 11px 24px; text-decoration: none;
-      color: rgba(255,255,255,.7); font-size: 17px;
+      color: var(--ink-muted); font-size: 17px;
       border-left: 4px solid transparent;
       transition: background .15s, color .15s, border-color .15s;
     }
-    .sidebar li a:hover { color: #fff; background: rgba(255,255,255,.06); }
-    .sidebar li a.active { color: #fff; border-left-color: var(--c, var(--yellow)); background: rgba(255,255,255,.06); }
+    .sidebar li a:hover { color: var(--ink-text); background: var(--ink-hover); }
+    .sidebar li a.active { color: var(--ink-text); font-weight: 600; border-left-color: var(--c, var(--yellow)); background: var(--ink-hover); }
 
     /* narrow screens: the menu becomes a sticky bar of links at the top */
     @media (max-width: 860px) {
@@ -117,7 +119,7 @@
       .sidebar {
         position: sticky; top: 0; bottom: auto; width: auto;
         display: flex; align-items: center; padding: 0;
-        border-left: 0; border-bottom: 1px solid rgba(255,255,255,.1);
+        border-left: 0; border-bottom: 1px solid var(--ink-line);
         overflow-x: auto; overflow-y: hidden; scrollbar-width: none;
       }
       .sidebar::-webkit-scrollbar { display: none; }
@@ -148,14 +150,16 @@
       position: relative; overflow: hidden;
     }
     .masthead .wrap { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 32px; }
-    #heroCube { --size: clamp(150px, 26vw, 220px); --gap: 7px; cursor: pointer; transform: rotate(-6deg); box-shadow: 0 30px 60px rgba(0,0,0,.5); }
-    #heroCube:hover { transform: rotate(-6deg) scale(1.03); }
+    .hero-img {
+      width: clamp(180px, 30vw, 260px); height: auto; aspect-ratio: 1; object-fit: cover;
+      border-radius: 50%; border: 6px solid #fff;
+      box-shadow: 0 24px 48px rgba(0,0,0,.2);
+    }
     .masthead h1 {
       font-size: clamp(40px, 8vw, 84px); line-height: 1; margin: 0;
       font-weight: 900; letter-spacing: -.02em; text-transform: uppercase;
     }
-    .masthead .role { font-size: clamp(18px, 2.4vw, 24px); font-style: italic; color: rgba(255,255,255,.75); margin: 0; }
-    .masthead .hint { font-family: "JetBrains Mono", monospace; font-size: 12px; color: rgba(255,255,255,.4); margin: -16px 0 0; }
+    .masthead .role { font-size: clamp(18px, 2.4vw, 24px); font-style: italic; color: var(--ink-muted); margin: 0; }
 
     /* ---------- About ---------- */
     .about { background: var(--bg); }
@@ -276,13 +280,13 @@
     .langs { margin-top: 40px; font-size: 16px; color: rgba(255,255,255,.85); }
 
     /* ---------- Footer ---------- */
-    footer { background: var(--ink); color: rgba(255,255,255,.6); padding: 56px 0; text-align: center; font-size: 15px; }
+    footer { background: var(--ink); color: var(--ink-muted); padding: 56px 0; text-align: center; font-size: 15px; }
     .social { display: flex; justify-content: center; gap: 14px; margin-bottom: 20px; }
     .social a {
       width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center;
-      background: #fff; color: #111; transition: background .15s, color .15s;
+      background: var(--dark); color: #fff; transition: background .15s, color .15s;
     }
-    .social a:hover { background: var(--yellow); }
+    .social a:hover { background: var(--yellow); color: #111; }
     .social svg { width: 20px; height: 20px; }
 
     .to-top {
@@ -327,10 +331,7 @@
   <!-- Masthead -->
   <header class="masthead" id="top">
     <div class="wrap">
-      <div class="cube" id="heroCube" role="button" tabindex="0" aria-label="Scramble the cube">
-        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <p class="hint">click to scramble</p>
+      <img class="hero-img" src="img/umbrellas.jpg" width="640" height="562" alt="Colourful umbrellas seen from below">
       <h1>Dominique Delseny</h1>
       <p class="role">Data Engineer · Data Analyst · Full-Stack Developer</p>
       <a class="btn btn-yellow" href="#about">Find out more</a>
@@ -521,7 +522,7 @@
           <span>in/dominique-delseny</span>
         </a>
         <a class="contact-card" href="https://github.com/domidels" target="_blank" rel="noopener">
-          <span class="ic" style="--c:var(--ink)"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></span>
+          <span class="ic" style="--c:var(--dark)"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></span>
           <strong>GitHub</strong>
           <span>github.com/domidels</span>
         </a>
@@ -558,17 +559,6 @@
     }
     addEventListener('scroll', updateActive, { passive: true });
     updateActive();
-
-    // Hero cube: scramble on click
-    const colors = ['--red', '--blue', '--green', '--yellow', '--orange', '--white'];
-    const stickers = document.querySelectorAll('#heroCube span');
-    function scramble() {
-      stickers.forEach(s => { s.style.background = `var(${colors[Math.floor(Math.random() * colors.length)]})`; });
-    }
-    scramble();
-    const hero = document.getElementById('heroCube');
-    hero.addEventListener('click', scramble);
-    hero.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); scramble(); } });
 
     // Back-to-top button
     const toTop = document.getElementById('toTop');
