@@ -10,13 +10,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;0,900;1,400&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Rubik's cube stickers */
-      --red: #e8112d;
-      --blue: #0057d9;
-      --green: #00a651;
-      --yellow: #ffd500;
-      --orange: #ff6a00;
+      /* pastel palette (backgrounds) */
+      --red: #f7c6cd;
+      --blue: #c7dbf6;
+      --green: #c6e9d4;
+      --yellow: #fbe7a5;
+      --orange: #fcd6b9;
       --white: #ffffff;
+      /* deep shades of the same hues, for text and icons */
+      --red-deep: #b3263c;
+      --blue-deep: #1f5fbf;
+      --green-deep: #1d7a4a;
+      --orange-deep: #b45512;
+      --on-pastel: #1d1d1f;
 
       --bg: #ffffff;
       --bg-alt: #f3f3f1;
@@ -161,13 +167,13 @@
 
     /* ---------- About ---------- */
     .about { background: var(--bg); }
-    .about .eyebrow { color: var(--red); }
+    .about .eyebrow { color: var(--red-deep); }
     .about p.lead { font-size: clamp(20px, 2.4vw, 24px); color: var(--muted); max-width: 760px; margin: 0 auto 36px; }
     .about p.lead strong { color: var(--text); }
 
     /* ---------- Skills (services) ---------- */
-    .skills { background: var(--blue); color: #fff; }
-    .skills .eyebrow { color: var(--yellow); }
+    .skills { background: var(--blue); color: var(--on-pastel); }
+    .skills .eyebrow { color: var(--blue-deep); }
     .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 40px 24px; margin-top: 56px; }
     .service { text-align: center; }
     .service .icon {
@@ -179,62 +185,60 @@
     .service:hover .icon { transform: rotate(-8deg) scale(1.06); }
     .service .icon svg { width: 44px; height: 44px; }
     .service h3 { margin: 0 0 6px; font-size: 22px; }
-    .service p { margin: 0; color: rgba(255,255,255,.82); font-size: 16px; }
+    .service p { margin: 0; color: rgba(0,0,0,.68); font-size: 16px; }
     .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 64px; }
     .chip {
       font-family: "JetBrains Mono", monospace; font-size: 13px;
       padding: 6px 12px; border-radius: 6px;
-      background: rgba(255,255,255,.12); color: #fff;
-      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.65); color: var(--on-pastel);
+      border: 1px solid rgba(0,0,0,.08);
     }
 
     /* ---------- Callout ---------- */
-    .callout { background: var(--yellow); color: #111; padding: 96px 0; }
+    .callout { background: var(--yellow); color: var(--on-pastel); padding: 96px 0; }
     .callout h2 { margin-bottom: 28px; }
     .callout h2 em { font-style: normal; background: #111; color: var(--yellow); padding: 0 .25em; }
 
     /* ---------- Portfolio ---------- */
     .portfolio { background: var(--bg); }
-    .portfolio .eyebrow { color: var(--green); }
+    .portfolio .eyebrow { color: var(--green-deep); }
     .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 0; margin-top: 48px; }
     .tile {
       position: relative; display: block; aspect-ratio: 4 / 3;
       text-decoration: none; overflow: hidden;
-      background: var(--c); color: var(--fg, #fff);
+      background: var(--c); color: var(--on-pastel);
+      padding: 52px 32px 0;
     }
-    /* faint 3x3 sticker grid instead of a photo */
-    .tile::before {
-      content: ""; position: absolute; inset: 0;
-      background:
-        linear-gradient(90deg, transparent calc(33.333% - 3px), rgba(0,0,0,.14) calc(33.333% - 3px) calc(33.333% + 3px), transparent calc(33.333% + 3px) calc(66.666% - 3px), rgba(0,0,0,.14) calc(66.666% - 3px) calc(66.666% + 3px), transparent calc(66.666% + 3px)),
-        linear-gradient(0deg, transparent calc(33.333% - 3px), rgba(0,0,0,.14) calc(33.333% - 3px) calc(33.333% + 3px), transparent calc(33.333% + 3px) calc(66.666% - 3px), rgba(0,0,0,.14) calc(66.666% - 3px) calc(66.666% + 3px), transparent calc(66.666% + 3px));
-      transition: transform .5s ease;
+    /* screenshot framed like a browser window */
+    .tile .shot {
+      display: block; width: 100%; height: 100%;
+      object-fit: cover; object-position: top left;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 -2px 0 rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.18);
+      transition: transform .4s ease;
     }
-    .tile:hover::before { transform: scale(1.08) rotate(2deg); }
+    .tile:hover .shot { transform: translateY(-8px); }
     .tile .num {
-      position: absolute; top: 20px; left: 24px;
-      font-family: "JetBrains Mono", monospace; font-size: 14px; opacity: .8;
-    }
-    .tile .big {
-      position: absolute; inset: 0; display: grid; place-items: center;
-      font-size: clamp(64px, 11vw, 120px); font-weight: 900; letter-spacing: -.04em;
-      opacity: .9; transition: opacity .3s, transform .3s;
+      position: absolute; top: 18px; left: 32px;
+      font-family: "JetBrains Mono", monospace; font-size: 13px; opacity: .75;
     }
     .tile .caption {
       position: absolute; inset: 0; padding: 28px;
       display: flex; flex-direction: column; justify-content: flex-end;
-      background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.55) 60%, rgba(0,0,0,.2));
+      background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.55) 60%, rgba(0,0,0,.15));
       color: #fff; opacity: 0; transition: opacity .3s;
     }
     .tile:hover .caption, .tile:focus-visible .caption { opacity: 1; }
-    .tile:hover .big { opacity: 0; transform: scale(.9); }
     .tile .caption h3 { margin: 0 0 6px; font-size: 28px; line-height: 1.15; }
     .tile .caption p { margin: 0 0 12px; font-size: 16px; color: rgba(255,255,255,.85); }
     .tile .caption .meta { font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--yellow); }
-    /* touch devices: always show the caption */
+    /* touch devices: always show the caption, lighter so the screenshot stays visible */
     @media (hover: none) {
-      .tile .caption { opacity: 1; }
-      .tile .big { opacity: .25; }
+      .tile .caption { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.5) 55%, transparent 80%); }
+    }
+    @media (max-width: 600px) {
+      .tile { aspect-ratio: 3 / 4; padding: 48px 16px 0; }
+      .tile .num { left: 16px; }
     }
     .sources { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 28px; margin-top: 28px; font-size: 16px; color: var(--muted); }
     .sources a { color: var(--muted); }
@@ -242,7 +246,7 @@
 
     /* ---------- Experience ---------- */
     .experience { background: var(--bg-alt); }
-    .experience .eyebrow { color: var(--orange); }
+    .experience .eyebrow { color: var(--orange-deep); }
     .timeline { list-style: none; margin: 48px 0 0; padding: 0; display: grid; gap: 16px; }
     .job {
       display: grid; grid-template-columns: 12px 1fr; gap: 20px;
@@ -260,22 +264,22 @@
     .edu span { font-size: 15px; color: var(--muted); }
 
     /* ---------- Contact ---------- */
-    .contact { background: var(--red); color: #fff; }
-    .contact .eyebrow { color: var(--yellow); }
-    .contact p.lead { font-size: 20px; color: rgba(255,255,255,.88); max-width: 640px; margin: 0 auto 48px; }
+    .contact { background: var(--red); color: var(--on-pastel); }
+    .contact .eyebrow { color: var(--red-deep); }
+    .contact p.lead { font-size: 20px; color: rgba(0,0,0,.7); max-width: 640px; margin: 0 auto 48px; }
     .contact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px; }
     .contact-card {
       display: flex; flex-direction: column; align-items: center; gap: 10px;
       padding: 32px 20px; border-radius: 14px; text-decoration: none;
-      background: #fff; color: #111; box-shadow: 0 10px 30px rgba(0,0,0,.18);
+      background: #fff; color: #111; box-shadow: 0 10px 30px rgba(0,0,0,.1);
       transition: transform .15s;
     }
     .contact-card:hover { transform: translateY(-4px); }
-    .contact-card .ic { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--c); color: var(--fg, #fff); }
+    .contact-card .ic { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--c); color: var(--fg, var(--on-pastel)); }
     .contact-card .ic svg { width: 26px; height: 26px; }
     .contact-card strong { font-size: 19px; }
     .contact-card span { font-size: 15px; color: #555; word-break: break-all; text-align: center; }
-    .langs { margin-top: 40px; font-size: 16px; color: rgba(255,255,255,.85); }
+    .langs { margin-top: 40px; font-size: 16px; color: rgba(0,0,0,.7); }
 
     /* ---------- Footer ---------- */
     footer { background: var(--ink); color: var(--ink-muted); padding: 56px 0; text-align: center; font-size: 15px; }
@@ -295,7 +299,7 @@
       opacity: 0; pointer-events: none; transition: opacity .2s, background .2s;
     }
     .to-top.show { opacity: 1; pointer-events: auto; }
-    .to-top:hover { background: var(--blue); }
+    .to-top:hover { background: var(--blue-deep); }
     .to-top svg { width: 22px; height: 22px; }
 
     @media (max-width: 600px) {
@@ -356,22 +360,22 @@
       <h2>What I offer</h2>
       <div class="services">
         <div class="service">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg></div>
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--red-deep)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg></div>
           <h3>Data Pipelines</h3>
           <p>ETL/ELT with Airflow, Python and SQL — feeding PostgreSQL, Oracle, Solr and S3 with terabytes of data.</p>
         </div>
         <div class="service">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H8a6 6 0 1 1 5.66-8H15a4.5 4.5 0 0 1 2.5 8z"/></svg></div>
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue-deep)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H8a6 6 0 1 1 5.66-8H15a4.5 4.5 0 0 1 2.5 8z"/></svg></div>
           <h3>Cloud &amp; IaC</h3>
           <p>Serverless AWS (Lambda, S3, API Gateway, EventBridge, CloudFront), Terraform, Docker and CI/CD.</p>
         </div>
         <div class="service">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div>
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-deep)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div>
           <h3>Analytics &amp; ML</h3>
           <p>Exploratory analysis, dashboards and models with pandas, scikit-learn, Matplotlib, Seaborn and Tableau.</p>
         </div>
         <div class="service">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg></div>
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange-deep)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg></div>
           <h3>Full-Stack &amp; LLMs</h3>
           <p>React, Node.js and FastAPI apps, Leaflet maps, and LLM-powered research tools.</p>
         </div>
@@ -399,7 +403,7 @@
     <div class="tiles">
       <a class="tile" style="--c:var(--red)" href="https://stockwatch-au.com/" target="_blank" rel="noopener">
         <span class="num">01 / stock analytics</span>
-        <span class="big">ASX</span>
+        <img class="shot" src="img/projects/stockwatch.jpg" width="960" height="666" loading="lazy" alt="StockWatch AU dashboard: CBA closing price chart">
         <span class="caption">
           <h3>StockWatch AU</h3>
           <p>ASX analytics dashboard tracking 20 stocks: risk/return scatter, monthly returns heatmap, correlation explorer and PCA clustering. Daily ingestion via yfinance.</p>
@@ -408,7 +412,7 @@
       </a>
       <a class="tile" style="--c:var(--blue)" href="https://waverley-bus.live" target="_blank" rel="noopener">
         <span class="num">02 / real-time transit</span>
-        <span class="big">BUS</span>
+        <img class="shot" src="img/projects/waverley.jpg" width="960" height="666" loading="lazy" alt="Waverley Buses Live: map of the Eastern Suburbs with live buses">
         <span class="caption">
           <h3>Waverley Buses Live</h3>
           <p>Fully serverless real-time bus tracking for Sydney's Eastern Suburbs, ingesting the NSW Transport GTFS-RT feed every few seconds.</p>
@@ -417,16 +421,16 @@
       </a>
       <a class="tile" style="--c:var(--green)" href="https://www.plant-med.org/" target="_blank" rel="noopener">
         <span class="num">03 / LLM research</span>
-        <span class="big">RX</span>
+        <img class="shot" src="img/projects/plantmed.jpg" width="960" height="719" loading="lazy" alt="Plant Therapeutic: PubMed search results for migraine">
         <span class="caption">
           <h3>Plant Therapeutic</h3>
           <p>AI-powered platform extracting plant–disease evidence from PubMed and generating LLM research summaries ranked by strength of evidence.</p>
           <span class="meta">FastAPI · Turso · HuggingFace / Llama · Vercel</span>
         </span>
       </a>
-      <a class="tile" style="--c:var(--yellow);--fg:#111" href="https://domidels.github.io/wild-life-diversity/" target="_blank" rel="noopener">
+      <a class="tile" style="--c:var(--yellow)" href="https://domidels.github.io/wild-life-diversity/" target="_blank" rel="noopener">
         <span class="num">04 / data platform</span>
-        <span class="big">FIRE</span>
+        <img class="shot" src="img/projects/afterfire.jpg" width="960" height="720" loading="lazy" alt="After the Fire dashboard: burn scar map of the Gironde fires">
         <span class="caption">
           <h3>After the Fire</h3>
           <p>Wildfires × biodiversity: joining NASA FIRMS satellite fire detections with GBIF observations, published as an interactive dashboard.</p>
@@ -513,7 +517,7 @@
       <p class="lead">Open to remote Data Engineer, Data Analyst or Full-Stack roles — freelance or flexible hybrid. The fastest way to reach me is by email.</p>
       <div class="contact-cards">
         <a class="contact-card js-email" href="#contact">
-          <span class="ic" style="--c:var(--yellow);--fg:#111"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg></span>
+          <span class="ic" style="--c:var(--yellow)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg></span>
           <strong>Email</strong>
           <span class="js-email-text">Click to show address</span>
         </a>
